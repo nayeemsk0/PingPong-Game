@@ -1,0 +1,177 @@
+<html>
+<canvas id="gamecanvas" width=400 height=500>
+</canvas>
+<script>
+var canvas;
+var canvascontext;
+var ballx=100,bally=100;
+var ballspeedx=10;
+var ballspeedy=10;
+var frameset=30;//for controlling speed
+var paddley=100;
+var paddleheight=150;
+var count=0;
+window.onload=function()
+{
+canvas=document.getElementById("gamecanvas");
+canvascontext=canvas.getContext("2d");//for adding graphics and all to your canvas or screen
+setInterval(both,1000/frameset);//(function,1000=1 sec)
+
+//if mouse is moved then particular function will be called
+canvas.addEventListener("mousemove",function(event){
+paddley=mousecount(event).y-paddleheight/2;
+});
+
+
+canvas.addEventListener("click",function(event){
+if(mousecount(event).x>100 && mousecount(event).x<160 && mousecount(event).y>10 && mousecount(event).y<40)
+{
+reset();
+}
+});
+
+canvas.addEventListener("click",function(event){
+if(mousecount(event).x>170 && mousecount(event).x<230 && mousecount(event).y>10 && mousecount(event).y<40)
+{
+alert("Game Pause click ok to start");
+}
+});
+
+canvas.addEventListener("click",function(event){
+if(mousecount(event).x>240 && mousecount(event).x<300 && mousecount(event).y>10 && mousecount(event).y<40)
+{
+var ballspeedx=10;
+var ballspeedy=10;
+}
+});
+
+canvas.addEventListener("click",function(event){
+if(mousecount(event).x>310 && mousecount(event).x<370 && mousecount(event).y>10 && mousecount(event).y<40)
+{
+var ballspeedx=20;
+var ballspeedy=20;
+}
+});
+
+}
+//both
+function both()
+{
+move();
+draw();
+}
+//reset
+function reset()
+{
+ballx=100;
+bally=100;
+}
+
+//moving ball
+function move()
+{
+ballx=ballx+ballspeedx;
+bally=bally+ballspeedy;
+
+// when hit left handle it will bounce back
+if(ballx>=canvas.width)
+{
+ballspeedx=-ballspeedx;
+}
+
+// when hit right handle it will bounce back
+if(ballx<=0)
+{
+if(bally>paddley && bally<paddley+paddleheight)
+{
+ballspeedx=-ballspeedx;
+}
+else
+{
+ballspeedx=-ballspeedx;
+
+reset();
+count++;
+if(count==3)
+{
+alert("Game Over");
+count=0;
+}
+}
+}
+// when hit upward side it will bounce back
+if(bally>=canvas.height)
+{
+ballspeedy=-ballspeedy;
+}
+// when downward it will bounce back
+
+if(bally<=0)
+{
+ballspeedy=-ballspeedy;
+}
+
+}
+
+//on mouse moving
+function mousecount(event)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
+var mousex=event.clientX;
+var mousey=event.clientY;
+return{x:mousex,y:mousey}
+}
+// Drawing ball and handles
+function draw()
+{
+
+//filling canvas content with black color i.e background
+colorrect("yellow",0,0,canvas.width,canvas.height);//(x-axis,y,width,height)
+
+//ball
+colorrect("blue",ballx,bally,10,10);
+
+//left side
+colorrect("blue",2,paddley,10,paddleheight);
+
+//right handle
+colorrect("blue",392,bally-paddley/2,10,150);
+
+//count value
+colortext("red",count,100,100);
+
+//play
+colorrect("red",100,10,60,30);
+colortext("white","play",110,30);
+
+//pause
+colorrect("red",170,10,60,30);
+colortext("white","pause",180,30);
+
+//level 1
+colorrect("red",240,10,60,30);
+colortext("white","level1",250,30);
+
+//level2
+colorrect("red",310,10,60,30);
+colortext("white","level2",320,30);
+
+}
+
+function colorrect(color,x,y,width,height)
+{
+canvascontext.fillStyle=color;
+canvascontext.fillRect(x,y,width,height);
+}
+
+function colortext(color,text,x,y)
+{
+canvascontext.fillStyle=color;
+canvascontext.font="20px arile";
+canvascontext.fillText(text,x,y);
+
+}
+</script>
+
+
+
+</html>
